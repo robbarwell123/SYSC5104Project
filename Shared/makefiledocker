@@ -18,4 +18,4 @@ message.o: messages/message.cpp
 
 #CLEAN COMMANDS
 clean: 
-	rm -f includes/*
+	rm -f includes/docker/*
