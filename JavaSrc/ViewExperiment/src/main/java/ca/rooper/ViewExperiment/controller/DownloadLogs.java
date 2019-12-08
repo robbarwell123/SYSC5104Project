@@ -1,18 +1,15 @@
 package ca.rooper.ViewExperiment.controller;
 
-import java.io.FileInputStream;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.io.FilenameUtils;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,26 +48,31 @@ public class DownloadLogs
 		{
 			myLogFiles=Files.readAllLines(Paths.get(sBaseDir+tId+"/logs.list"));
 			
-	        Map<String, String> env = new HashMap<>(); 
-	        env.put("create", "true");
-	        Path oZipFile = Paths.get(sBaseDir+tId+"/LOGS.zip");
-			FileSystem myZipFile = FileSystems.newFileSystem(oZipFile, env);			
+			ByteArrayOutputStream myOutput = new ByteArrayOutputStream();
+			ZipOutputStream myZip = new ZipOutputStream(myOutput);
+			
+			ZipEntry myAddFile;
+			
 			for(String myLogFile : myLogFiles)
 			{
-	            Path oLogFile = Paths.get(sBaseDir+tId+"/"+myLogFile);
-	            Path inZipFile = myZipFile.getPath(myLogFile);          
-	            Files.copy(oLogFile,inZipFile,StandardCopyOption.REPLACE_EXISTING );
+				myAddFile=new ZipEntry(myLogFile);
+				myZip.putNextEntry(myAddFile);
+				myZip.write(Files.readAllBytes(Paths.get(sBaseDir+tId+"/"+myLogFile)));
+				myZip.closeEntry();
 			}
-			myZipFile.close();
-
-		    InputStreamResource rtnZipFile = new InputStreamResource(new FileInputStream(oZipFile.toString()));
+			myZip.flush();
+			myZip.close();
+			
+			InputStream targetStream = new ByteArrayInputStream(myOutput.toByteArray());
+			
+		    InputStreamResource rtnZipFile = new InputStreamResource(targetStream);
 
 	        HttpHeaders myHeaders = new HttpHeaders();
 	        myHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Experiment"+tId+".zip");
 	        
 		    toRtn = ResponseEntity.ok()
 		    		.headers(myHeaders)
-		            .contentLength(oZipFile.toFile().length())
+		            .contentLength(myOutput.toByteArray().length)
 		            .contentType(MediaType.parseMediaType("application/octet-stream"))
 		            .body(rtnZipFile);			
 		}catch(Exception errDelete)
