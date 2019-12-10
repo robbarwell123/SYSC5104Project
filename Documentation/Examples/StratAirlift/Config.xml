@@ -14,7 +14,9 @@
 		<rununtil>1000</rununtil>
 	</time>
 	<loggers>
-		<loggerfile name="stratairliftjson" />
-		<logger name="state" type="logger::logger_state" format="dynamic::logger::formatter&lt;TIME&gt;" loggerfile="stratairliftjson" />
+		<loggerfile name="stratairliftstates" />
+		<loggerfile name="stratairliftmessages" />
+		<logger name="state" type="logger::logger_state" format="dynamic::logger::formatter&lt;TIME&gt;" loggerfile="stratairliftstates" />
+		<logger name="messages" type="logger::logger_messages" format="dynamic::logger::formatter&lt;TIME&gt;" loggerfile="stratairliftmessages" />
 	</loggers>
 </configModel>
