@@ -38,6 +38,7 @@
 					<DIV id="CURRTIME">
 					Loading ...
 					</DIV>
+					<INPUT type="range" min="1" max="1" class="TIMESLIDER" id="myTimeSlider">
 				</DIV>
 				<DIV id="PANELS">
 				</DIV>

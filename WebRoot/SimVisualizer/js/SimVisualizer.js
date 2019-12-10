@@ -13,6 +13,7 @@ $(document).ready(function ()
 {
 	var myURL = new URL(window.location.href);
 	var iId=myURL.searchParams.get("iId");
+	document.getElementById("myTimeSlider").oninput=SliderChange;
 	
 	$.ajax({
 		type: "GET",
@@ -32,6 +33,7 @@ $(document).ready(function ()
 					myMap=MapPanel().id("ExpMap").canvas("#PANELS").newPanel();
 					myLogStateOutput=TextPanel().id("StateOutput").canvas("#PANELS").filterType("state").filterProperty("message").newPanel();
 					myLogMessageOutput=TextPanel().id("MessageOutput").canvas("#PANELS").filterType("message").filterProperty("Debug").newPanel();
+					$('#myTimeSlider').attr("max",iMaxFrame);
 				}catch(errMsg)
 				{
 					console.log(errMsg);
@@ -40,7 +42,6 @@ $(document).ready(function ()
 				}
 			}else
 			{
-console.log(jsonResp);
 				$('#STATUS').html("Error retriving data. "+jsonResp.data);
 				$('#MESSAGE').show();
 			}
@@ -140,6 +141,7 @@ function ChangeFrame()
 	{
 		myNotifyList[myObjectId](myLog[myFrames[iCurrFrame]]);
 	}
+	$('#myTimeSlider').val(iCurrFrame);	
 }
 
 /**
@@ -189,4 +191,13 @@ function ToggleBlank(bToggleState)
 	{
 		$(".BLANK").hide();
 	}
+}
+
+function SliderChange()
+{
+	bPlay=false;
+	clearInterval(oRun);
+	$('#PLAYPAUSE').attr("src","./img/play.svg");
+	iCurrFrame=$('#myTimeSlider').val();
+	ChangeFrame();
 }
