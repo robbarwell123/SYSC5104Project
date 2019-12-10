@@ -21,7 +21,7 @@ using namespace cadmium;
 using namespace std;
 
 const int I_DELIVERY_TIME=10;
-const int I_MAX_WAIT_TIME=2*DAYS_IN_MIN;
+const int I_MAX_WAIT_TIME=1*DAYS_IN_MIN;
 
 const int DEST_DIST=0;
 const int DEST_ACTYPE=1;
@@ -87,7 +87,6 @@ template<typename TIME> class Location{
 			state.iCurrTime+=state.iNextAdd;
 			int iAddTime=0;
 			int iNextExpireAircraftTime=0;
-			
 			state.mySendLoads.clear();
 			
 			switch(state.currPhase)
@@ -124,7 +123,7 @@ template<typename TIME> class Location{
 					if(state.mySendLoads.size()>0)
 					{
 						state.currPhase=SENDLOAD;
-						state.sigma=TIME(0);
+						state.sigma=TIME(10);
 					}else if(state.myDestPallets.size()>0)
 					{
 						state.currPhase=DELIVER;
@@ -133,29 +132,42 @@ template<typename TIME> class Location{
 						iAddTime=I_DELIVERY_TIME;
 					}else
 					{
-						if(state.myWaitingAircraft.size()==0)
-						{
-							state.currPhase=WAITING;
-							state.sigma=std::numeric_limits<TIME>::infinity();
-						}else
+						if(GuestAircraft())
 						{
 							state.currPhase=PROCESSING;
 							state.iNextAdd=TIME(iNextExpireAircraftTime);
 							state.sigma=TIME(iNextExpireAircraftTime);
+						}else
+						{
+							state.currPhase=WAITING;
+							state.sigma=std::numeric_limits<TIME>::infinity();
 						}
 					}
 					break;
 				case SENDLOAD:
 					state.currPhase=PROCESSING;
-					state.sigma=TIME(0);
+					state.sigma=TIME(10);
 					break;
 				case DELIVER:
 					state.myDestPallets.clear();
 					state.currPhase=PROCESSING;
-					state.sigma=TIME(0);
+					state.sigma=TIME(10);
 					break;
 			}
         }
+
+		bool GuestAircraft()
+		{
+			bool toRtn=false;
+			for(vector<oAircraftStatus>::iterator oAircraft=state.myWaitingAircraft.begin(); oAircraft!=state.myWaitingAircraft.end();++oAircraft)
+			{
+				if(oAircraft->iHome!=state.iLocation)
+				{
+					toRtn=true;
+				}
+			}
+			return toRtn;
+		}
 
 		int CheckAircraft()
 		{
@@ -165,6 +177,7 @@ template<typename TIME> class Location{
 				iMinTime=min(ConvertToInt(oAircraft->iWaitingTime),iMinTime);
 				if(oAircraft->iWaitingTime <= state.iCurrTime && oAircraft->iHome!=state.iLocation)
 				{
+
 					oLoad myLoad;
 					state.iCurrLoad++;
 					myLoad.sLoadID=to_string(state.iLocation) + "_" + to_string(state.iCurrLoad);
@@ -178,7 +191,7 @@ template<typename TIME> class Location{
 					{
 						state.myWaitingAircraft.erase(oAircraft);
 						state.mySendLoads.push_back(myLoad);
-					}
+					}					
 				}else
 				{
 					++oAircraft;
@@ -220,6 +233,8 @@ template<typename TIME> class Location{
 			
 			vector<oPallet>::iterator itLoadPallet;
 			
+			int iCurrLoadSize;
+			
 			for (auto iMinPos : vFindMinPos)
 			{
 				itFindPos=myStatus.begin();
@@ -245,12 +260,14 @@ template<typename TIME> class Location{
 								myLoad.iAircraftID=itFindAC->iAircraftID;
 								
 								itLoadPallet=state.myWaitingPallets.begin();
-								while(itLoadPallet!=state.myWaitingPallets.end())
+								iCurrLoadSize=0;
+								while(itLoadPallet!=state.myWaitingPallets.end() && iCurrLoadSize<itFindAC->iCapacity)
 								{
 									if(itLoadPallet->iNextLoc==itFindPos->first)
 									{
 										myLoad.vPallets.push_back(*itLoadPallet);
 										state.myWaitingPallets.erase(itLoadPallet);
+										iCurrLoadSize++;
 									}else
 									{
 										itLoadPallet++;
@@ -317,7 +334,7 @@ template<typename TIME> class Location{
 				}
             }
 			
-			state.currPhase=PROCESSING;
+			state.currPhase=state.currPhase==WAITING ? PROCESSING : state.currPhase;
 			state.sigma=TIME(0);
         }
 		

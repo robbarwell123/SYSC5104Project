@@ -52,8 +52,8 @@ struct oAircraftStatus
 {
 	oAircraftStatus()
 		:iAircraftID(-1){}
-	oAircraftStatus(int tiAircraftID, int tiLocation)
-		:iAircraftID(tiAircraftID), iLocation(tiLocation){}
+	oAircraftStatus(int tiAircraftID, int tiLocation, int tiCapacity, int tiType, int tiHome)
+		:iAircraftID(tiAircraftID), iLocation(tiLocation), iCapacity(tiCapacity), iType(tiType), iHome(tiHome){}
 		
 	int iAircraftID;
 	int iLocation;

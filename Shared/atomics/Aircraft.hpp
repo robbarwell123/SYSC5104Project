@@ -35,13 +35,14 @@ template<typename TIME> class Aircraft{
 		Aircraft() = default;
 		
         // default constructor
-        Aircraft(int tiAircraftID, int tiType, int tiHomeLocation, int tiSpeed) noexcept{
+        Aircraft(int tiAircraftID, int tiType, int tiHomeLocation, int tiSpeed, int tiMaxLoad) noexcept{
 			state.currPhase=INIT;
 			state.sigma=TIME(0);
 			state.iAircraftID=tiAircraftID;
 			state.iType=tiType;
 			state.iAvgSpeed=(tiSpeed*METERS_PER_KTS)/1000;
 			state.iHomeLocation=tiHomeLocation;
+			state.iMaxLoad=tiMaxLoad;
         }
         
         // state definition
@@ -52,6 +53,7 @@ template<typename TIME> class Aircraft{
 			int iType;
 			int iAvgSpeed;
 			int iHomeLocation;
+			int iMaxLoad;
 			double dDistanceRemaining;
 			double dTotalDist;
 			double dCurrHeading;
@@ -143,11 +145,11 @@ template<typename TIME> class Aircraft{
 			{
 				case UNLOADING:
 					get_messages<typename Aircraft_defs::outLoads>(bags).push_back(state.myCurrLoad);
-					tStatus=oAircraftStatus(state.iAircraftID,state.myCurrLoad.iDestination);
+					tStatus=oAircraftStatus(state.iAircraftID,state.myCurrLoad.iDestination,state.iMaxLoad,state.iType,state.iHomeLocation);
 					get_messages<typename Aircraft_defs::outACStatus>(bags).push_back(tStatus);
 					break;
 				case INIT:
-					tStatus=oAircraftStatus(state.iAircraftID,state.iHomeLocation);
+					tStatus=oAircraftStatus(state.iAircraftID,state.iHomeLocation,state.iMaxLoad,state.iType,state.iHomeLocation);
 					get_messages<typename Aircraft_defs::outACStatus>(bags).push_back(tStatus);
 					break;
 			}

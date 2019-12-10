@@ -217,7 +217,7 @@ function RunCadmium(myId,myTop,myConfig)
 		},
 		error: function (errMsg)
 		{
-			$('#STATUS').html("Experiment Error "+myId+": "+errMsg.responseJSON.message);
+			$('#STATUS').html("Experiment Error "+myId+": "+errMsg);
 			$('#MESSAGE').show();
 		}
 	});	

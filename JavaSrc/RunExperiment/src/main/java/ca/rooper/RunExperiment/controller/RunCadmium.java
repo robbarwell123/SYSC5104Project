@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FilenameUtils;
 //import org.slf4j.Logger;
@@ -44,6 +45,9 @@ public class RunCadmium
 
 	@Value("${experiments.run}")
 	private String sRunCommand;
+
+	@Value("${cadmium.maxtimeout}")
+	private int iMaxTimeout;
 
 	@Autowired
 	private Environment myEnvVars;	
@@ -140,7 +144,7 @@ public class RunCadmium
 		try
 		{
 			Process myCompile = Runtime.getRuntime().exec(sCompileCommand+" "+tId);
-			if(myCompile.waitFor()!=0)
+			if(!myCompile.waitFor(iMaxTimeout,TimeUnit.SECONDS))
 			{
 	            BufferedReader stdError = new BufferedReader(new InputStreamReader(myCompile.getErrorStream()));				
 	            while ((sErrMsg = stdError.readLine()) != null)
@@ -162,7 +166,7 @@ public class RunCadmium
 		try
 		{
 			Process myRun = Runtime.getRuntime().exec(sRunCommand+" "+tId);
-			if(myRun.waitFor()!=0)
+			if(!myRun.waitFor(iMaxTimeout,TimeUnit.SECONDS))
 			{
 	            BufferedReader stdError = new BufferedReader(new InputStreamReader(myRun.getErrorStream()));				
 	            while ((sErrMsg = stdError.readLine()) != null)
