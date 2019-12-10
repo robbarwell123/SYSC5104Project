@@ -2,8 +2,9 @@
 var myLog;			// List of log entries
 var myFrames;		// List of time periods in the log entry
 
-var myMap;			// A map panel
-var myLogOutput;	// A text panel
+var myMap;					// A map panel
+var myLogStateOutput;		// State Output
+var myLogMessageOutput;		// Message Output
 
 /**
  * Initalization functions that are executed when the page loads
@@ -29,7 +30,8 @@ $(document).ready(function ()
 					$('#CURRTIME').html(myFrames[0]);
 					iMaxFrame=myFrames.length-1;
 					myMap=MapPanel().id("ExpMap").canvas("#PANELS").newPanel();
-					myLogOutput=TextPanel().id("LogOutput").canvas("#PANELS").newPanel();
+					myLogStateOutput=TextPanel().id("StateOutput").canvas("#PANELS").filterType("state").filterProperty("message").newPanel();
+					myLogMessageOutput=TextPanel().id("MessageOutput").canvas("#PANELS").filterType("message").filterProperty("Debug").newPanel();
 				}catch(errMsg)
 				{
 					console.log(errMsg);

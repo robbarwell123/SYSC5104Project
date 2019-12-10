@@ -37,10 +37,10 @@ var mySimList;		// The list of experiments
 					ToggleOption_CreateExperiment(false);
 					mySimList.remove();
 					mySimList=SimList().canvas("#SIMLIST").newSimList();
-					$("#STATUS").replaceWith("Success: " + jsonResp.data);
+					$("#STATUS").html("Success: " + jsonResp.data);
 				}else if(jsonResp.status=="Error")
 				{
-					$("#STATUS").replaceWith("Error with XML upload: " + jsonResp.data);
+					$("#STATUS").html("Error with upload: " + jsonResp.data);
 				}				
 				$('#MESSAGE').show();
                 $("#FILES_MODEL_SUBMIT").prop("disabled", false);
@@ -97,7 +97,7 @@ function ToggleBlank(bToggleState)
  */
 function ToggleOption_CreateExperiment(bToggleState)
 {
-	$("#CREATEEXPERIMENT_ERROR").replaceWith("");
+	$("#CREATEEXPERIMENT_ERROR").html("");
 	if(bToggleState)
 	{
 		OpenMenu();
@@ -118,6 +118,9 @@ function ToggleOption_CreateExperiment(bToggleState)
  */
 function ToggleOption_RunExperiment(bToggleState,expId)
 {
+	$('#STATUS').html("");
+	$('#MESSAGE').hide();
+
 	runExperimentId.value=expId;
 	if(bToggleState)
 	{

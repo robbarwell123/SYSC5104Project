@@ -12,7 +12,7 @@
 // oPallet input and output streams
 ostream& operator<<(ostream& os, const oPallet& msg)
 {
-	os << "Pallet: " << msg.iPalletID << " Next Location: " << msg.iNextLoc << " Destination: " << msg.iDest << "\n";
+	os << "Pallet: " << msg.iPalletID << " Next Location: " << msg.iNextLoc << " Destination: " << msg.iDest;
 
 	return os;
 }
@@ -31,7 +31,7 @@ istream& operator>> (istream& is, oPallet& msg)
 // oLoad input and output streams
 ostream& operator<<(ostream& os, const oLoad& msg)
 {
-	os << "Load: " << msg.sLoadID << " Destination: " << msg.iDestination << "\n";
+	os << "Load: " << msg.sLoadID << " Destination: " << msg.iDestination;
 	
 	return os;
 }
@@ -57,7 +57,7 @@ istream& operator>> (istream& is, oLoad& msg)
 // oAircraftStatus output stream
 ostream& operator<<(ostream& os, const oAircraftStatus& msg)
 {
-	os << "Aircraft ID: " << msg.iAircraftID << " at Location ID: " << msg.iLocation << "\n";
+	os << "Aircraft ID: " << msg.iAircraftID << " at Location ID: " << msg.iLocation;
 	
 	return os;
 }
@@ -76,7 +76,7 @@ istream& operator>> (istream& is, oAircraftStatus& msg)
 // oLocInfo output stream
 ostream& operator<<(ostream& os, const oLocInfo& msg)
 {
-	os << "Location: " << msg.iLocID << " Going to: " << msg.dLat << "," << msg.dLong << " via: " << msg.iNextDest << "\n";
+	os << "Location: " << msg.iLocID << " Going to: " << msg.dLat << "," << msg.dLong << " via: " << msg.iNextDest;
 	
 	return os;
 }

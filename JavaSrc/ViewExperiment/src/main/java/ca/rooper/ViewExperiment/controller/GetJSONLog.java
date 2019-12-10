@@ -30,7 +30,8 @@ public class GetJSONLog
 
 	private static final int ITEM_TIME=0;
 	private static final int ITEM_MODEL=1;
-	private static final int ITEM_DATA=2;
+	private static final int ITEM_TYPE=2;	
+	private static final int ITEM_DATA=3;
 	
 	@Autowired
 	Experiments myExperiments;
@@ -59,14 +60,14 @@ public class GetJSONLog
 				for(String sLogEntry : myLogEntries)
 				{
 					sEntityElements=sLogEntry.split("\t");
-					tJSONEntry="{\"time\":\""+sEntityElements[ITEM_TIME]+"\",\"name\":\""+sEntityElements[ITEM_MODEL]+"\",";
+					tJSONEntry="{\"time\":\""+sEntityElements[ITEM_TIME]+"\",\"name\":\""+sEntityElements[ITEM_MODEL]+"\",\"type\":\""+sEntityElements[ITEM_TYPE]+"\",";
 					tJSONEntry+=sEntityElements[ITEM_DATA].matches("\"data\":.*") ? sEntityElements[ITEM_DATA] : "\"data\":{\"Debug\":\""+sEntityElements[ITEM_DATA]+"\"}";
 					tJSONEntry+="}";
 					if(!myJSONLog.containsKey(sEntityElements[ITEM_TIME]))
 					{
 						myJSONLog.put(sEntityElements[ITEM_TIME], new HashMap<String,String>());
 					}
-					myJSONLog.get(sEntityElements[ITEM_TIME]).put(sEntityElements[ITEM_MODEL], tJSONEntry);						
+					myJSONLog.get(sEntityElements[ITEM_TIME]).put(sEntityElements[ITEM_MODEL]+sEntityElements[ITEM_TYPE], tJSONEntry);						
 				}
 			}
 			toRtn.setStatus("Success");

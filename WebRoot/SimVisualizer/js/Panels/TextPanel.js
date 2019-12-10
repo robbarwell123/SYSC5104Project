@@ -7,6 +7,8 @@ function TextPanel()
 	var sID="Text"+Math.random();
 	
 	var myText;
+	var sFilterType="";
+	var sFilterProperty="";
 	
 	function Render(){}
 
@@ -29,9 +31,9 @@ function TextPanel()
 		{
 			try
 			{
-				if(myLogEntry.data.hasOwnProperty("message"))
+				if(myLogEntry.type === sFilterType && myLogEntry.data.hasOwnProperty(sFilterProperty))
 				{
-					myTextContent+=myLogEntry.name+": "+myLogEntry.data.message+"<BR>";
+					myTextContent+="<STRONG>"+myLogEntry.name+":</STRONG> "+myLogEntry.data[sFilterProperty]+"<BR>";
 				}
 			}catch(errEntry)
 			{
@@ -60,6 +62,18 @@ function TextPanel()
 	Render.id = function(sValue) {
 		if(!arguments.length) return sID;
 		sID=sValue;
+		return Render;
+	};
+
+	Render.filterType = function(sValue) {
+		if(!arguments.length) return sFilterType;
+		sFilterType=sValue;
+		return Render;
+	};
+
+	Render.filterProperty = function(sValue) {
+		if(!arguments.length) return sFilterProperty;
+		sFilterProperty=sValue;
 		return Render;
 	};
 	
