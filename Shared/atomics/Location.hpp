@@ -174,10 +174,12 @@ template<typename TIME> class Location{
 			int iMinTime=ConvertToInt(state.iCurrTime)+I_MAX_WAIT_TIME;
 			for(vector<oAircraftStatus>::iterator oAircraft=state.myWaitingAircraft.begin(); oAircraft!=state.myWaitingAircraft.end();)
 			{
-				iMinTime=min(ConvertToInt(oAircraft->iWaitingTime),iMinTime);
+				if(oAircraft->iHome!=state.iLocation)
+				{
+					iMinTime=min(ConvertToInt(oAircraft->iWaitingTime),iMinTime);
+				}
 				if(oAircraft->iWaitingTime <= state.iCurrTime && oAircraft->iHome!=state.iLocation)
 				{
-
 					oLoad myLoad;
 					state.iCurrLoad++;
 					myLoad.sLoadID=to_string(state.iLocation) + "_" + to_string(state.iCurrLoad);
