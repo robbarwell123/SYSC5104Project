@@ -17,7 +17,7 @@
 using namespace cadmium;
 using namespace std;
 
-const int I_UPDATE_PERIOD=10;			// the update period for the plane in minutes
+const int I_UPDATE_PERIOD=30;			// the update period for the plane in minutes
 const int I_AVG_UNLOAD_TIME=30;			// the average unload time
 
 //Port definition
