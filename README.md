@@ -2,10 +2,10 @@
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Quick Start Guide](#quickinstall)
-- [Important Files](#importantfiles)
-- [File Structure](#File Structure)
+- [Overview](#Overview)
+- [Quick Start Guide](#Quick)
+- [Important Files](#Important)
+- [File Structure](#File)
 
 ## Overview
 
