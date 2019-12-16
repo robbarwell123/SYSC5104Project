@@ -6,11 +6,11 @@
 	</ports>
 	<components>
 		<submodel type="atomic" name="irPalletIn" class_name="InputReader_oPallet" xml_implementation="iestream">
-			<param type="const char*" name="sFilename" value="LocationTest_Pallets.txt" />
+			<param type="const char*" name="sFilename" value="Pallets.txt" />
 			<param type="message_type" name="InputReader_oPallet" value="oPallet" />
 		</submodel>
 		<submodel type="atomic" name="irLocInfoIn" class_name="InputReader_oLocInfo" xml_implementation="iestream">
-			<param type="const char*" name="sFilename" value="LocationTest_LocInfo.txt" />
+			<param type="const char*" name="sFilename" value="LocInfo.txt" />
 			<param type="message_type" name="InputReader_oLocInfo" value="oLocInfo" />
 		</submodel>
 		<submodel type="coupled" name="Locations" class_name="Locations" xml_implementation="Locations.xml" />
