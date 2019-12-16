@@ -9,8 +9,8 @@
 
 ## Overview
 
-This repository contains the code for my submission to Carlton's SYSC 5104 final term project.
+This repository contains the code for Rob Barwell's submission to Carlton's SYSC 5104 final term project.  Details about the project can be found in the final paper in the documentation directory.  Also in the documentation directory are the Quick Start and Installation Guide for using this software.
 
 ## Quick Install
 
-Please read the quick start guide in Documentation (Documentation/QuickStartGuide.docx)
+Please read the quick start guide in [Quick Start Guide](Documentation/QuickStartGuide.docx)
