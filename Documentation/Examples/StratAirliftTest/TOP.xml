@@ -5,14 +5,6 @@
  		<port type="out" name="outPallets" message_type="oPallet" />
 	</ports>
 	<components>
-		<submodel type="atomic" name="irLoadIn" class_name="InputReader_oLoad" xml_implementation="iestream">
-			<param type="const char*" name="sFilename" value="LocationTest_Loads.txt" />
-			<param type="message_type" name="InputReader_oLoad" value="oLoad" />
-		</submodel>
-		<submodel type="atomic" name="irACStatusIn" class_name="InputReader_oACStatus" xml_implementation="iestream">
-			<param type="const char*" name="sFilename" value="LocationTest_ACStatus.txt" />
-			<param type="message_type" name="InputReader_oACStatus" value="oAircraftStatus" />
-		</submodel>
 		<submodel type="atomic" name="irPalletIn" class_name="InputReader_oPallet" xml_implementation="iestream">
 			<param type="const char*" name="sFilename" value="LocationTest_Pallets.txt" />
 			<param type="message_type" name="InputReader_oPallet" value="oPallet" />
@@ -30,8 +22,6 @@
 		<ic from_submodel="Locations" out_port_from="LOC_outLoads" to_submodel="Aircraft" in_port_to="AC_inLoads" />    
 		<ic from_submodel="Aircraft" out_port_from="AC_outStatus" to_submodel="Locations" in_port_to="LOC_InputACStatus" />    
 		<ic from_submodel="Aircraft" out_port_from="AC_outLoads" to_submodel="Locations" in_port_to="LOC_InputLoads" />    
-		<ic from_submodel="irLoadIn" out_port_from="iestream_input_defs&lt;oLoad&gt;::out" to_submodel="Locations" in_port_to="LOC_InputLoads" />    
-		<ic from_submodel="irACStatusIn" out_port_from="iestream_input_defs&lt;oAircraftStatus&gt;::out" to_submodel="Locations" in_port_to="LOC_InputACStatus" />    
 		<ic from_submodel="irPalletIn" out_port_from="iestream_input_defs&lt;oPallet&gt;::out" to_submodel="Locations" in_port_to="LOC_InputPallets" />    
 		<ic from_submodel="irLocInfoIn" out_port_from="iestream_input_defs&lt;oLocInfo&gt;::out" to_submodel="Locations" in_port_to="LOC_InputLocInfo" />    
 	</connections>

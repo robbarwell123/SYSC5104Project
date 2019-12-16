@@ -10,13 +10,15 @@
 			<param type="int" name="iAircraftID" value="1" />
 			<param type="int" name="iType" value="1" />
 			<param type="int" name="iHomeLocation" value="1" />
-			<param type="int" name="iAvgSpeed" value="360" />
+			<param type="int" name="iAvgSpeed" value="490" />
+			<param type="int" name="iMaxLoad" value="16" />			
 		</submodel>
 		<submodel type="atomic" name="Aircraft2" class_name="Aircraft" xml_implementation="Aircraft.devs">
 			<param type="int" name="iAircraftID" value="2" />
-			<param type="int" name="iType" value="1" />
-			<param type="int" name="iHomeLocation" value="1" />
-			<param type="int" name="iAvgSpeed" value="360" />
+			<param type="int" name="iType" value="2" />
+			<param type="int" name="iHomeLocation" value="2" />
+			<param type="int" name="iAvgSpeed" value="300" />
+			<param type="int" name="iMaxLoad" value="4" />			
 		</submodel>
 	</components>
 	<connections>
